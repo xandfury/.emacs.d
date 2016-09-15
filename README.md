@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/purcell/emacs.d.png?branch=master)](https://travis-ci.org/purcell/emacs.d)
-
 # Emacs Configuration
 
 This is my emacs configuration tree, continually used and tweaked.
@@ -19,3 +17,8 @@ latest Emacs version available to you.
 Some Windows users might need to follow
 [these instructions](http://xn--9dbdkw.se/diary/how_to_enable_GnuTLS_for_Emacs_24_on_Windows/index.en.html)
 to get TLS (ie. SSL) support included in their Emacs.
+
+## Credits
+
+This configuration is based on the starter kit provided by [Steve Prucell](https://github.com/purcell). However, since cloning his repo, I have been making consistent changes with the config.
+Please feel free to poke around the code.
