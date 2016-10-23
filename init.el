@@ -1,4 +1,3 @@
-
 ;;; This file bootstraps the configuration, which is divided into
 ;;; a number of other files.
 
@@ -14,6 +13,9 @@
 (defconst *spell-check-support-enabled* nil) ;; Enable with t if you prefer
 (defconst *is-a-mac* (eq system-type 'darwin))
 
+;;; delete the fowwlowing two lines later - abhinav
+;; (require 'package)
+(package-initialize)
 ;;----------------------------------------------------------------------------
 ;; Temporarily reduce garbage collection during startup
 ;;----------------------------------------------------------------------------
@@ -189,6 +191,14 @@
 ;;         "makeindex %b"
 ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %b"
 ;;         "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %b"))
+
+;;; Reveal JS org mode
+(require 'org)
+(require 'ox-reveal)
+
+;;; Load the black beard theme:
+(add-to-list 'custom-theme-load-path "~/home/abhinav/.emacs.d/blackboard-theme/blackboard-theme.el")
+(load-theme 'blackboard t)              ;Load the theme
 
 
 (provide 'init)
