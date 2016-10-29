@@ -164,6 +164,15 @@
 
 ;;; Minted package installation for syntax highlighting
 
+;; stop emacs asking for confirmation
+(setq org-confirm-babel-evaluate nil)
+;;; Custom templates for adding C and shell source code blocks
+;;; For C code
+(add-to-list 'org-structure-template-alist
+             '("c" "#+NAME: ?\n#+BEGIN_SRC c +n :exports both \n\n#+END_SRC"))
+(add-to-list 'org-structure-template-alist
+             '("sh" "#+NAME: ?\n#+BEGIN_SRC sh +n :exports both \n\n#+END_SRC"))
+
 (require 'ox-latex)
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 (setq org-latex-listings 'minted)
@@ -180,10 +189,10 @@
 ;;       ("" "minted" nil))
 ;; ;; this is for code syntax highlighting in export
 ;; (setq org-latex-listings 'minted)
-;; (setq org-latex-minted-options
-;;       '(("frame" "lines")
-;;         ("fontsize" "\\scriptsize")
-;;         ("linenos" "")))
+;;; Set the minted content in a box
+(setq org-latex-minted-options
+      '(("frame" "single")
+        ("linenos" "")))
 ;; for minted you must run latex with -shell-escape because it calls pygmentize as an external program
 ;; (setq org-latex-pdf-process
 ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %b"
@@ -196,10 +205,11 @@
 (require 'org)
 (require 'ox-reveal)
 
-;;; Load the black beard theme:
-(add-to-list 'custom-theme-load-path "~/home/abhinav/.emacs.d/blackboard-theme/blackboard-theme.el")
+;;----------------------------------------------------------------------------
+;; Load the black beard theme:
+;;----------------------------------------------------------------------------
+(add-to-list 'custom-theme-load-path "~/.emacs.d/blackboard-theme")
 (load-theme 'blackboard t)              ;Load the theme
-
 
 (provide 'init)
 
