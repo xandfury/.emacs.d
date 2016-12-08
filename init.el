@@ -169,9 +169,22 @@
 ;;; Custom templates for adding C and shell source code blocks
 ;;; For C code
 (add-to-list 'org-structure-template-alist
-             '("c" "#+NAME: ?\n#+BEGIN_SRC c +n :exports both \n\n#+END_SRC"))
+             '("C" "#+BEGIN_SRC c +n \n?\n#+END_SRC\n"))
+;;; For shell code
 (add-to-list 'org-structure-template-alist
-             '("sh" "#+NAME: ?\n#+BEGIN_SRC sh +n :exports both \n\n#+END_SRC"))
+             '("sh" "#+BEGIN_SRC sh +n \n?\n#+END_SRC\n"))
+;;; VERSE
+(add-to-list 'org-structure-template-alist
+             '("v" "#+BEGIN_VERSE \n?\n#+END_VERSE\n"))
+;;; LaTeX
+(add-to-list 'org-structure-template-alist
+             '("l" "#+NAME: ?\n#+BEGIN_LATEX +n \n\n#+END_LATEX\n"))
+;;; For BEGIN_EXAMPLE
+(add-to-list 'org-structure-template-alist
+             '("ex" "#+BEGIN_EXAMPLE \n?\n#+END_EXAMPLE\n"))
+;;; For Image caption
+(add-to-list 'org-structure-template-alist
+             '("cap" "#+CAPTION: Output of the program\n[[./img/?.png]]"))
 
 (require 'ox-latex)
 (add-to-list 'org-latex-packages-alist '("" "minted"))
@@ -191,8 +204,13 @@
 ;; (setq org-latex-listings 'minted)
 ;;; Set the minted content in a box
 (setq org-latex-minted-options
-      '(("frame" "single")
-        ("linenos" "")))
+      '(("mathescape" "true")
+        ("linenos" "true")
+        ("numbersep" "5pt")
+        ("frame" "lines")
+        ("framesep" "2mm")))
+;; '(("frame" "single")
+;;   ("linenos" "")))
 ;; for minted you must run latex with -shell-escape because it calls pygmentize as an external program
 ;; (setq org-latex-pdf-process
 ;;       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %b"
@@ -210,6 +228,11 @@
 ;;----------------------------------------------------------------------------
 (add-to-list 'custom-theme-load-path "~/.emacs.d/blackboard-theme")
 (load-theme 'blackboard t)              ;Load the theme
+
+;;; Load language C for executing the command code
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((C . t)))
+
 
 (provide 'init)
 
