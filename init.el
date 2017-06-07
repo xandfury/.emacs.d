@@ -26,6 +26,37 @@
           (lambda () (setq gc-cons-threshold sanityinc/initial-gc-cons-threshold)))
 
 ;;----------------------------------------------------------------------------
+;; Auto-complete in Emacs!
+;;----------------------------------------------------------------------------
+                                        ; Start auto-complete with emacs
+(require 'auto-complete)
+                                        ; Default config
+(require 'auto-complete-config)
+(ac-config-default)
+                                        ; Start your yasnippet with emacs
+(require 'yasnippet)
+(yas-global-mode 1)
+                                        ; Define a function which initializes auto-complete-c-headers adn gets called for c/c++ hooks
+(defun my:ac-c-header-init ()
+  (require 'auto-complete-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (add-to-list 'achead:include-directories '"/usr/include/c++/5"))
+                                        ; now let's call this function from c/c++ hooks
+(add-hook 'c++-mode-hook 'my:ac-c-header-init)
+(add-hook 'c-mode-hook 'my:ac-c-header-init)
+                                        ; Fix iedit bug
+(define-key global-map (kbd "C-c ;") 'iedit-mode)
+
+                                        ;start flymake-google-cpplint-load
+                                        ;define a function fir flymake initialization
+(defun my:flymake-google-init ()
+  (require 'flymake-google-cpplint)
+  (custom-set-variables
+   '(flymake-google-cpplint-command "/usr/local/bin/cpplint"))
+  (flymake-google-cpplint-load))
+(add-hook 'c-mode-hook 'my:flymake-google-init)
+(add-hook 'c++-mode-hook 'my:flymake-google-init)
+;;----------------------------------------------------------------------------
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -168,23 +199,23 @@
 (setq org-confirm-babel-evaluate nil)
 ;;; Custom templates for adding C and shell source code blocks
 ;;; For C code
-(add-to-list 'org-structure-template-alist
-             '("C" "#+BEGIN_SRC c +n \n?\n#+END_SRC\n"))
-;;; For shell code
-(add-to-list 'org-structure-template-alist
-             '("sh" "#+BEGIN_SRC sh +n \n?\n#+END_SRC\n"))
-;;; VERSE
-(add-to-list 'org-structure-template-alist
-             '("v" "#+BEGIN_VERSE \n?\n#+END_VERSE\n"))
-;;; LaTeX
-(add-to-list 'org-structure-template-alist
-             '("l" "#+NAME: ?\n#+BEGIN_LATEX +n \n\n#+END_LATEX\n"))
-;;; For BEGIN_EXAMPLE
-(add-to-list 'org-structure-template-alist
-             '("ex" "#+BEGIN_EXAMPLE \n?\n#+END_EXAMPLE\n"))
-;;; For Image caption
-(add-to-list 'org-structure-template-alist
-             '("cap" "#+CAPTION: Output of the program\n[[./img/?.png]]"))
+;; (add-to-list 'org-structure-template-alist
+;;              '("C" "#+BEGIN_SRC c +n \n?\n#+END_SRC\n"))
+;; ;;; For shell code
+;; (add-to-list 'org-structure-template-alist
+;;              '("sh" "#+BEGIN_SRC sh +n \n?\n#+END_SRC\n"))
+;; ;;; VERSE
+;; (add-to-list 'org-structure-template-alist
+;;              '("v" "#+BEGIN_VERSE \n?\n#+END_VERSE\n"))
+;; ;;; LaTeX
+;; (add-to-list 'org-structure-template-alist
+;;              '("l" "#+NAME: ?\n#+BEGIN_LATEX +n \n\n#+END_LATEX\n"))
+;; ;;; For BEGIN_EXAMPLE
+;; (add-to-list 'org-structure-template-alist
+;;              '("ex" "#+BEGIN_EXAMPLE \n?\n#+END_EXAMPLE\n"))
+;; ;;; For Image caption
+;; (add-to-list 'org-structure-template-alist
+;;              '("cap" "#+CAPTION: Output of the program\n[[./img/?.png]]"))
 
 (require 'ox-latex)
 (add-to-list 'org-latex-packages-alist '("" "minted"))
@@ -200,7 +231,7 @@
 ;;* Export settings
 ;; (setq org-latex-default-packages-alist
 ;;       ("" "minted" nil))
-;; ;; this is for code syntax highlighting in export
+;; this is for code syntax highlighting in export
 ;; (setq org-latex-listings 'minted)
 ;;; Set the minted content in a box
 (setq org-latex-minted-options
@@ -226,17 +257,22 @@
 ;;----------------------------------------------------------------------------
 ;; Load the black beard theme:
 ;;----------------------------------------------------------------------------
-(add-to-list 'custom-theme-load-path "~/.emacs.d/blackboard-theme")
-(load-theme 'blackboard t)              ;Load the theme
-
+;; (add-to-list 'custom-theme-load-path "~/.emacs.d/blackboard-theme")
+(load-theme 'purple-haze t)              ;Load the theme
+(global-linum-mode 1)                   ;Linum mode global
 ;;; Load language C for executing the command code
 (org-babel-do-load-languages
  'org-babel-load-languages '((C . t)))
 
+(require 'airline-themes)
+(load-theme 'airline-light)
 
+;;; Evil mode for emacs!
+;; (require 'evil)
+;; (evil-mode 1)
 (provide 'init)
 
 ;; Local Variables:
 ;; coding: utf-8
 ;; no-byte-compile: t
-;; End:
+;; End::x
